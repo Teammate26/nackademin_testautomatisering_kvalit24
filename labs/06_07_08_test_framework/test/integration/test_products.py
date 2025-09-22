@@ -1,6 +1,9 @@
 import libs.utils
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
+import os
+
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 
 # Given I am an admin user​
@@ -12,7 +15,7 @@ def test_add_product_to_catalog():
     password = "1234"
     product_name = libs.utils.generate_product_string_with_prefix()
 
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(BACKEND_URL)
 
     user_api.login(username, password)  # Login as admin
     assert user_api.status_code == 200
@@ -51,7 +54,7 @@ def test_remove_product_from_catalog():
     password = "1234"
     product_name = libs.utils.generate_product_string_with_prefix()
 
-    user_api = UserAPI("http://localhost:8000")
+    user_api = UserAPI(BACKEND_URL)
 
     user_api.login(username, password)  # Login as admin
     assert user_api.status_code == 200

@@ -1,11 +1,28 @@
 import os
+import time
+import requests
 from models.api.user import UserAPI
 from models.api.admin import AdminAPI
 
-BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+BACKEND_URL = os.getenv("BACKEND_URL", "http://app-backend:8000")
+
+
+def wait_for_backend(url: str, retries: int = 10, delay: int = 1):
+    """Wait until the backend responds or raise an error."""
+    for _ in range(retries):
+        try:
+            requests.get(f"{url}/health")  # or "/" if no health endpoint
+            return
+        except requests.ConnectionError:
+            time.sleep(delay)
+    raise RuntimeError(f"Backend at {url} did not start in time")
 
 
 def pytest_sessionstart(session):
+    # Wait until backend is ready
+    wait_for_backend(BACKEND_URL)
+
+    # Initialize API clients
     user_api = UserAPI(BACKEND_URL)
 
     # Create users

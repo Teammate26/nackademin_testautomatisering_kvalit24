@@ -4,6 +4,7 @@ from models.ui.user import UserPage
 from models.ui.signup import SignupPage
 from models.api.user import UserAPI
 from libs.utils import generate_string_with_prefix
+import os
 
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 

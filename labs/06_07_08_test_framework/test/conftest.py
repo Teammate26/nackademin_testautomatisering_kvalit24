@@ -6,7 +6,8 @@ BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 
 def pytest_sessionstart(session):
-    user_api = UserAPI(BACKEND_URL)
+    api_base = "BACKEND_URL, http://localhost:8000"
+    user_api = UserAPI(api_base)
 
     # Create users
     user_api.signup("admin", "1234")
@@ -15,7 +16,7 @@ def pytest_sessionstart(session):
 
     # Login as admin to create products
     user_api.login("admin", "1234")
-    admin_api = AdminAPI(BACKEND_URL, token=user_api.token)
+    admin_api = AdminAPI(api_base, token=user_api.token)
     admin_api.create_product("testproduct00")
     admin_api.create_product("testproduct11")
 

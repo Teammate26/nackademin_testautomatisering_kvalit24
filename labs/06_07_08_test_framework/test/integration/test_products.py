@@ -21,7 +21,7 @@ def test_add_product_to_catalog():
     assert user_api.status_code == 200
 
     admin_api = AdminAPI(
-        "http://localhost:8000", token=user_api.token
+        BACKEND_URL, token=user_api.token
     )  # Passing the token to the admin api
 
     count_before = (
@@ -60,7 +60,7 @@ def test_remove_product_from_catalog():
     assert user_api.status_code == 200
 
     admin_api = AdminAPI(
-        "http://localhost:8000", token=user_api.token
+        BACKEND_URL, token=user_api.token
     )  # Passing the token to the admin api
 
     admin_api.create_product(product_name)
